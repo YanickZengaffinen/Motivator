@@ -1,5 +1,4 @@
 ﻿using Motivator.DB.Repositories;
-using Motivator.DB.Repositories.Impl;
 using Motivator.Models;
 using System;
 using System.Security.Cryptography;
@@ -45,7 +44,7 @@ namespace Motivator.Services
                 }
             }
 
-            return null;
+            return Task.FromResult<UserModel>(null);
         }
 
         private string HashString(string str)
