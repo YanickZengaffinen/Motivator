@@ -7,6 +7,8 @@ namespace Motivator.DB
     {
         public DbSet<UserModel> Users { get; set; }
 
+        public DbSet<TaskModel> Tasks { get; set; }
+
         public MotivatorContext(DbContextOptions<MotivatorContext> options) : base(options) { }
     }
 }

@@ -1,0 +1,13 @@
+﻿@model Motivator.Models.TaskModel
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<form class="form" method="post" novalidate>
+    <h2 class="form-heading">New Task</h2>
+    <label for="inputOwnerId" class="sr-only">OwnerId</label>
+    <input type="number" asp-for="OwnerId" id="inputOwnerId" class="form-control first" placeholder="Owner" required autofocus />
+    <label for="inputTitle" class="sr-only">Title</label>
+    <input type="text" asp-for="Title" id="inputTitle" class="form-control first" placeholder="Title" required autofocus />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+</form>

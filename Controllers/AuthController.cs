@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Motivator.Models;
 using Motivator.Services;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -45,7 +44,7 @@ namespace Motivator.Controllers
 
             await SignInUser(user);
 
-            return RedirectToAction("UserInformation", "Home");
+            return RedirectToAction("Overview", "Task");
         }
 
         [Route("register")]
@@ -61,14 +60,13 @@ namespace Motivator.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //TODO: validate
                 return View(model);
             }
 
             var user = await userService.Add(model.Name, model.Email, model.Password);
             await SignInUser(user);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Overview", "Task");
         }
 
 
@@ -92,7 +90,7 @@ namespace Motivator.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
             };
