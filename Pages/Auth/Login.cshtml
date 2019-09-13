@@ -1,11 +1,7 @@
-﻿@model Motivator.Models.LoginModel
+﻿@page
+@model Motivator.Pages.Auth.LoginModel
 @{
     ViewData["Title"] = "Login";
-}
-
-@if (!ViewData.ModelState.IsValid)
-{
-    <div asp-validation-summary="All" class="alert alert-danger"></div>
 }
 
 <form class="form" method="post" novalidate>
@@ -16,3 +12,15 @@
     <input type="password" asp-for="Password" id="inputPassword" class="form-control last" placeholder="Password" required />
     <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
 </form>
+
+<div>
+    <h6>You do not have an account yet?</h6>
+    <a class="btn btn-lg btn-primary" asp-page="Register">Register here</a>
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(false)
+    </div>
+}

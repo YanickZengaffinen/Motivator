@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50695",
-      "sslPort": 44316
+      "applicationUrl": "http://localhost:54580",
+      "sslPort": 44310
     }
   },
   "profiles": {
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Motivator": {
+    "Motivator_Razor": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
@@ -29,11 +29,11 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
         "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "44317"
+        "ASPNETCORE_HTTPS_PORT": "44311"
       },
-      "httpPort": 50696,
+      "httpPort": 54581,
       "useSSL": true,
-      "sslPort": 44317
+      "sslPort": 44311
     }
   }
 }

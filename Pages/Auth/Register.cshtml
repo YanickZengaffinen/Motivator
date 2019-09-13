@@ -1,11 +1,7 @@
-﻿@model Motivator.Models.RegisterModel
+﻿@page
+@model Motivator.Pages.Auth.RegisterModel
 @{
     ViewData["Title"] = "Register";
-}
-
-@if (!ViewData.ModelState.IsValid)
-{
-<div asp-validation-summary="All" class="alert alert-danger"></div>
 }
 
 <form class="form" method="post" novalidate>
@@ -20,3 +16,10 @@
     <input type="password" asp-for="RepeatPassword" id="inputRepeatPassword" class="form-control last" placeholder="Repeat Password" required />
     <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
 </form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(false)
+    </div>
+}

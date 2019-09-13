@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Motivator.Migrations
 {
     [DbContext(typeof(MotivatorContext))]
-    [Migration("20190912083014_Tasks")]
-    partial class Tasks
+    [Migration("20190913084846_UsersAndTasks")]
+    partial class UsersAndTasks
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,8 @@ namespace Motivator.Migrations
 
                     b.Property<int?>("SubTaskId");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

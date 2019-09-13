@@ -32,7 +32,8 @@ namespace Motivator.Migrations
 
                     b.Property<int?>("SubTaskId");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

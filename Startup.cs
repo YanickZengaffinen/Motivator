@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +11,7 @@ using Motivator.DB.Repositories;
 using Motivator.DB.Repositories.Impl;
 using Motivator.Services;
 
-namespace Motivator
+namespace Motivator_Razor
 {
     public class Startup
     {
@@ -21,21 +22,32 @@ namespace Motivator
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<IUserService, DBUserService>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(options => {
+                    options.Conventions.AddPageRoute("/Auth/Login", "");
+                });
+
+            services.AddScoped<IAuthService, DBAuthService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => {
+                .AddCookie(options =>
+                {
                     options.LoginPath = "/auth/login";
                     options.AccessDeniedPath = "/auth/accessdenied";
                 });
 
-            ConfigureDatabase(services);
+            ConfigureDatabaseServices(services);
         }
 
-        public void ConfigureDatabase(IServiceCollection services)
+        private void ConfigureDatabaseServices(IServiceCollection services)
         {
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<MotivatorContext>(options => options.UseNpgsql(Configuration["ConnectionStrings:DB"]));
@@ -44,7 +56,6 @@ namespace Motivator
             services.AddScoped<ITaskRepository, TaskRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, MotivatorContext context)
         {
             if (env.IsDevelopment())
@@ -53,25 +64,19 @@ namespace Motivator
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
 
-
             context.Database.Migrate();
 
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }

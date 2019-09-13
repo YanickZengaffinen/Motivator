@@ -1,17 +1,22 @@
-﻿using Motivator.DB.Repositories;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Motivator.DB.Repositories;
 using Motivator.Models;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Motivator.Services
 {
-    public class DBUserService : IUserService
+    public class DBAuthService : IAuthService
     {
         private readonly IUserRepository userRepo;
 
-        public DBUserService(IUserRepository userRepo)
+        public DBAuthService(IUserRepository userRepo)
         {
             this.userRepo = userRepo;
         }
@@ -45,6 +50,21 @@ namespace Motivator.Services
             }
 
             return Task.FromResult<UserModel>(null);
+        }
+
+        public async Task Login(HttpContext context, UserModel user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Email),
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await context.SignInAsync(principal);
         }
 
         private string HashString(string str)
