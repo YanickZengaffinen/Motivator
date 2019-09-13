@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Motivator;
 using Motivator.DB;
 using Motivator.DB.Repositories;
 using Motivator.DB.Repositories.Impl;
 using Motivator.Services;
+using System;
 
 namespace Motivator_Razor
 {
@@ -24,12 +27,13 @@ namespace Motivator_Razor
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddRazorPagesOptions(options => {
@@ -43,6 +47,7 @@ namespace Motivator_Razor
                     options.LoginPath = "/auth/login";
                     options.AccessDeniedPath = "/auth/accessdenied";
                 });
+
 
             ConfigureDatabaseServices(services);
         }

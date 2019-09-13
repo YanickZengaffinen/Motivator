@@ -10,16 +10,15 @@
 <h2>Overview</h2>
 
 <div id='app'>
-    <div>
-        <label>Your Tasks</label>
-        <table class="table table-hover table-striped">
-            <tr v-for="(item, index) in sortedTasks" class="row">
-                <td class="col">{{item.Title}}</td>
-            </tr>
-        </table>
-        <button v-on:click="loadTasks">Reload</button>
-        
-    </div>
+    <label>Your Tasks</label>
+    <table class="table table-hover table-striped">
+        <tr v-for="(item, index) in sortedTasks" class="row">
+            <td class="col">{{item.Title}}</td>
+        </tr>
+    </table>
+
+    <a asp-page="create" class="btn btn-lg btn-primary">New</a>
+    <button v-on:click="loadTasks" class="btn btn-lg btn-primary">Reload</button>
 </div>
 
 <script src="~/js/tasks/overview.js" asp-append-version="true"></script>

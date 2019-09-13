@@ -54,6 +54,18 @@ namespace Motivator.Services
             return Tasks.Task.FromResult<User>(null);
         }
 
+        public bool TryGetUserId(ClaimsPrincipal claims, out int id)
+        {
+            if(claims?.Identity?.IsAuthenticated == true)
+            {
+                id = int.Parse(claims.FindFirst(ClaimTypes.NameIdentifier).Value);
+                return true;
+            }
+
+            id = -1;
+            return false;
+        }
+
         public async Tasks.Task Login(HttpContext context, User user)
         {
             var claims = new List<Claim>

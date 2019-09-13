@@ -1,0 +1,20 @@
+﻿@page
+@model Motivator.Pages.Tasks.CreateModel
+@{
+    ViewData["Title"] = "TaskCreate";
+}
+
+<form class="form" method="post" novalidate>
+    <h2 class="form-heading">Create a New Task</h2>
+    <label for="inputTitle" class="sr-only">Title</label>
+    <input type="text" asp-for="Title" id="inputTitle" class="form-control first" placeholder="Title" required autofocus />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+</form>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(false)
+    </div>
+}
+
