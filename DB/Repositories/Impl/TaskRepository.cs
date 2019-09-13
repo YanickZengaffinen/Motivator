@@ -1,5 +1,4 @@
 ﻿using Motivator.DB.Models;
-using Motivator.Models;
 using System.Collections.Generic;
 using System.Linq;
 

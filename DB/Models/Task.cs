@@ -1,11 +1,10 @@
-﻿using Motivator.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Motivator.DB.Models
 {
-    public class Task : ITask
+    public class Task
     {
         [Key]
         public int Id { get; set; }

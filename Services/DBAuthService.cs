@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Motivator.DB.Models;
 using Motivator.DB.Repositories;
-using Motivator.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Tasks = System.Threading.Tasks;
 
 namespace Motivator.Services

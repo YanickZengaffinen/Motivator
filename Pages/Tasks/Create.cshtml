@@ -4,17 +4,45 @@
     ViewData["Title"] = "TaskCreate";
 }
 
-<form class="form" method="post" novalidate>
-    <h2 class="form-heading">Create a New Task</h2>
-    <label for="inputTitle" class="sr-only">Title</label>
-    <input type="text" asp-for="Title" id="inputTitle" class="form-control first" placeholder="Title" required autofocus />
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
-</form>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        @Html.ValidationSummary(false)
-    </div>
-}
+<div id='app'>
+    <form class="form" method="post" novalidate>
+        <h2 class="form-heading">Create a New Task</h2>
+        <label for="inputTitle" class="sr-only">Title</label>
+        <input type="text" asp-for="Title" id="inputTitle" class="form-control first" placeholder="Title" required autofocus />
+
+        <!-- Due Date -->
+        <div v-if="useDueDate">
+            <label for="inputDueDate" class="sr-only">Due Date</label>
+            <input type="datetime-local" asp-for="DueDate" id="inputDueDate" class="form-control" />
+            <input type="checkbox" asp-for="UseDueDate" v-model="useDueDate" hidden/>
+        </div>
+        <button v-if="!useDueDate" v-on:click="addDueDate" class="btn btn-lg">Add Due Date</button>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+    </form>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @Html.ValidationSummary(false)
+        </div>
+    }
+</div>
+
+<script>
+    var vueApp = new Vue({
+    el: '#app',
+    data: {
+        useDueDate: false
+    },
+    methods: {
+        addDueDate: function (e) {
+            this.useDueDate = true;
+            console.log(this.dueDate);
+        }
+    }
+})
+</script>
 

@@ -1,5 +1,4 @@
 ﻿using Motivator.DB.Models;
-using Motivator.Models;
 using System.Collections.Generic;
 
 namespace Motivator.DB.Repositories
