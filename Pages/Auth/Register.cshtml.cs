@@ -34,11 +34,7 @@ namespace Motivator.Pages.Auth
             this.authService = authService;
         }
 
-        public void OnGet()
-        {
-
-        }
-
+        [HttpPost]
         public async Task<IActionResult> OnPost()
         {
             if(!IsValid())

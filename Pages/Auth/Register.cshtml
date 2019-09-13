@@ -17,6 +17,11 @@
     <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
 </form>
 
+<div>
+    <label>Already have an account?</label>
+    <a asp-page="Login" class="btn btn-lg btn-primary">Login</a>
+</div>
+
 @if (!ViewData.ModelState.IsValid)
 {
     <div class="alert alert-danger">

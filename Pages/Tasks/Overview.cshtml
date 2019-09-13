@@ -4,5 +4,24 @@
     ViewData["Title"] = "Overview";
 }
 
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+
 <h2>Overview</h2>
 
+<div id='app'>
+    <div>
+        <label>Your Tasks</label>
+        <ul id="tasklist">
+            <li v-for="(item, index) in tasks">
+                {{item.Title}}
+            </li>
+        </ul>
+        <button v-on:click="loadTasks">Reload</button>
+    </div>
+</div>
+
+<script src="~/js/tasks/overview.js" asp-append-version="true"></script>
+<!--<script>
+    vueApp.tasks = Html.Raw(Model.GetTasksLight())
+</script>-->
