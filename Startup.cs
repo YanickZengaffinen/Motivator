@@ -12,7 +12,7 @@ using Motivator.DB;
 using Motivator.DB.Repositories;
 using Motivator.DB.Repositories.Impl;
 using Motivator.Services;
-using System;
+using Motivator.Util.Json;
 
 namespace Motivator_Razor
 {
@@ -50,6 +50,7 @@ namespace Motivator_Razor
 
 
             ConfigureDatabaseServices(services);
+            ConfigureFilterServices(services);
         }
 
         private void ConfigureDatabaseServices(IServiceCollection services)
@@ -59,6 +60,11 @@ namespace Motivator_Razor
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
+        }
+
+        private void ConfigureFilterServices(IServiceCollection services)
+        {
+            services.AddSingleton(typeof(IgnoreAllExceptFilter));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, MotivatorContext context)

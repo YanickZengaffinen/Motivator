@@ -6,29 +6,28 @@ using System.Buffers;
 
 namespace Motivator.Util.Json
 {
-    public class IgnoreAllExceptAttribute : ActionFilterAttribute
+    public class IgnoreAllExceptFilter : IActionFilter
     {
-        private readonly Type ignored;
-        private readonly string[] except;
+        public Type Ignored { get; set; }
 
-        public IgnoreAllExceptAttribute(Type ignored, params string[] except)
-        {
-            this.ignored = ignored;
-            this.except = except;
-        }
+        public string[] Except { get; set; }
 
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public void OnActionExecuted(ActionExecutedContext context)
         {
             if (context?.Result == null) return;
 
             var settings = JsonSerializerSettingsProvider.CreateSerializerSettings();
             settings.ContractResolver = new IgnoreAllExceptContractResolver()
-                .IgnoreAll(ignored)
-                .Except(ignored, except);
+                .IgnoreAll(Ignored)
+                .Except(Ignored, Except);
 
             var formatter = new JsonOutputFormatter(settings, ArrayPool<Char>.Shared);
             var result = context.Result as ObjectResult;
             result.Formatters.Add(formatter);
+        }
+
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
         }
     }
 }

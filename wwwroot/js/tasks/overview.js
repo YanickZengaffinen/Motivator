@@ -8,6 +8,14 @@
             axios.get("/api/tasks")
             .then(response => this.tasks = response.data)
             .catch(error => alert(error));
+        },
+        prettifyDate: function (dStr) {
+            if (dStr) {
+                var d = new Date(dStr);
+                return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + " " +
+                    d.getHours() + ":" + d.getMinutes();
+            }
+            return "-";
         }
     },
     computed: {

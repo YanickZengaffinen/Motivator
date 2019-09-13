@@ -14,6 +14,7 @@
     <table class="table table-hover table-striped">
         <tr v-for="(item, index) in sortedTasks" class="row">
             <td class="col">{{item.Title}}</td>
+            <td class="col">{{prettifyDate(item.DueDate)}}</td>
         </tr>
     </table>
 
