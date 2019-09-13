@@ -1,4 +1,4 @@
-﻿using Motivator.Models;
+﻿using Motivator.DB.Models;
 using System;
 using System.Linq;
 
@@ -13,19 +13,19 @@ namespace Motivator.DB.Repositories.Impl
             this.Context = context;
         }
 
-        public void Add(UserModel user)
+        public void Add(User user)
         {
             Context.Users.Add(user);
             Context.SaveChanges();
         }
 
-        public void Update(UserModel user)
+        public void Update(User user)
         {
             Context.Users.Update(user);
             Context.SaveChanges();
         }
 
-        public bool TryGetUserByName(string userName, out UserModel user)
+        public bool TryGetUserByName(string userName, out User user)
         {
             var dbUser = Context.Users.FirstOrDefault(u => u.Username.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
 
@@ -39,7 +39,7 @@ namespace Motivator.DB.Repositories.Impl
             return false;
         }
 
-        public bool TryGetUserByEmail(string eMail, out UserModel user)
+        public bool TryGetUserByEmail(string eMail, out User user)
         {
             var dbUser = Context.Users.FirstOrDefault(u => u.Email.Equals(eMail, StringComparison.InvariantCultureIgnoreCase));
 

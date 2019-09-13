@@ -1,15 +1,15 @@
-﻿using Motivator.Models;
+﻿using Motivator.DB.Models;
 
 namespace Motivator.DB.Repositories
 {
     public interface IUserRepository
     {
-        void Add(UserModel user);
+        void Add(User user);
 
-        void Update(UserModel user);
+        void Update(User user);
 
-        bool TryGetUserByName(string name, out UserModel user);
+        bool TryGetUserByName(string name, out User user);
 
-        bool TryGetUserByEmail(string email, out UserModel user);
+        bool TryGetUserByEmail(string email, out User user);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Motivator.Models
+namespace Motivator.DB.Models
 {
-    public class UserModel
+    public class User
     {
         [Key]
         public int Id { get; set; }

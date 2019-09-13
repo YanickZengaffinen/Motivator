@@ -1,20 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Motivator.DB.Repositories;
+using Motivator.Util.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Motivator.DB.Repositories;
-using Motivator.Models;
-using Motivator.Util.Json;
+using Task = Motivator.DB.Models.Task;
 
 namespace Motivator.Controllers
 {
     [Route("api/tasks")]
     [ApiController]
-    [IgnoreAllExcept(typeof(TaskModel), nameof(TaskModel.Title))]
+    [IgnoreAllExcept(typeof(Task), nameof(Task.Title))]
     [Authorize]
     public class TaskController : ControllerBase
     {
@@ -26,14 +23,14 @@ namespace Motivator.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TaskModel> Get()
+        public IEnumerable<Task> Get()
         {
             if(GetUserId(out int userId))
             {
                 return taskRepo.GetAll(userId);
             }
 
-            return new List<TaskModel>();
+            return new List<Task>();
         }
 
         private bool GetUserId(out int userId)

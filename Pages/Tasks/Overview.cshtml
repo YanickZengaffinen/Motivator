@@ -12,12 +12,13 @@
 <div id='app'>
     <div>
         <label>Your Tasks</label>
-        <ul id="tasklist">
-            <li v-for="(item, index) in tasks">
-                {{item.Title}}
-            </li>
-        </ul>
+        <table class="table table-hover table-striped">
+            <tr v-for="(item, index) in sortedTasks" class="row">
+                <td class="col">{{item.Title}}</td>
+            </tr>
+        </table>
         <button v-on:click="loadTasks">Reload</button>
+        
     </div>
 </div>
 

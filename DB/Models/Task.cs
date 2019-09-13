@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Motivator.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Motivator.Models
+namespace Motivator.DB.Models
 {
-    public class TaskModel
+    public class Task : ITask
     {
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(UserModel.Id))]
+        [ForeignKey(nameof(User.Id))]
         public int OwnerId { get; set; }
 
         [ForeignKey(nameof(Id))]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Motivator.DB.Models;
 using Motivator.DB.Repositories;
 using Motivator.Models;
 using System;
@@ -9,6 +10,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Tasks = System.Threading.Tasks;
 
 namespace Motivator.Services
 {
@@ -21,38 +23,38 @@ namespace Motivator.Services
             this.userRepo = userRepo;
         }
 
-        public Task<UserModel> Add(string userName, string email, string password)
+        public Tasks.Task<User> Add(string userName, string email, string password)
         {
-            if (userRepo.TryGetUserByName(userName, out UserModel _))
+            if (userRepo.TryGetUserByName(userName, out User _))
             {
                 throw new InvalidOperationException("Username already in use");
             }
 
-            if (userRepo.TryGetUserByEmail(email, out UserModel _))
+            if (userRepo.TryGetUserByEmail(email, out User _))
             {
                 throw new InvalidOperationException("EMail already in use");
             }
 
-            var user = new UserModel() { Username = userName, Email = email, Password = HashString(password) };
+            var user = new User() { Username = userName, Email = email, Password = HashString(password) };
             userRepo.Add(user);
 
-            return Task.FromResult(user);
+            return Tasks.Task.FromResult(user);
         }
 
-        public Task<UserModel> Authenticate(string userName, string password)
+        public Tasks.Task<User> Authenticate(string userName, string password)
         {
-            if (userRepo.TryGetUserByEmail(userName, out UserModel user))
+            if (userRepo.TryGetUserByEmail(userName, out User user))
             {
                 if (user.Password.Equals(HashString(password)))
                 {
-                    return Task.FromResult(user);
+                    return Tasks.Task.FromResult(user);
                 }
             }
 
-            return Task.FromResult<UserModel>(null);
+            return Tasks.Task.FromResult<User>(null);
         }
 
-        public async Task Login(HttpContext context, UserModel user)
+        public async Tasks.Task Login(HttpContext context, User user)
         {
             var claims = new List<Claim>
             {

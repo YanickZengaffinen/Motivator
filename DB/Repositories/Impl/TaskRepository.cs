@@ -1,4 +1,5 @@
-﻿using Motivator.Models;
+﻿using Motivator.DB.Models;
+using Motivator.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,12 +14,12 @@ namespace Motivator.DB.Repositories.Impl
             this.Context = context;
         }
 
-        public IEnumerable<TaskModel> GetAll(int ownerId)
+        public IEnumerable<Task> GetAll(int ownerId)
         {
             return Context.Tasks.Where(x => x.OwnerId == ownerId).ToList();
         }
 
-        public void AddTask(TaskModel model)
+        public void AddTask(Task model)
         {
             Context.Tasks.Add(model);
             Context.SaveChanges();
