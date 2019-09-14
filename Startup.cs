@@ -40,6 +40,11 @@ namespace Motivator_Razor
                     options.Conventions.AddPageRoute("/Auth/Login", "");
                 });
 
+            services.AddCors(c => 
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
             services.AddScoped<IAuthService, DBAuthService>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -59,7 +64,7 @@ namespace Motivator_Razor
                 .AddDbContext<MotivatorContext>(options => options.UseNpgsql(Configuration["ConnectionStrings:DB"]));
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITodoRepository, TodoRepository>();
         }
 
         private void ConfigureFilterServices(IServiceCollection services)

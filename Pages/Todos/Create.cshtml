@@ -1,24 +1,35 @@
 ﻿@page
-@model Motivator.Pages.Tasks.CreateModel
+@model Motivator.Pages.Todos.CreateModel
 @{
-    ViewData["Title"] = "TaskCreate";
+    ViewData["Title"] = "Create Todo";
 }
 
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
 
 <div id='app'>
     <form class="form" method="post" novalidate>
-        <h2 class="form-heading">Create a New Task</h2>
+        <h2 class="form-heading">Create a New Todo</h2>
         <label for="inputTitle" class="sr-only">Title</label>
         <input type="text" asp-for="Title" id="inputTitle" class="form-control first" placeholder="Title" required autofocus />
+
+        <hr />
 
         <!-- Due Date -->
         <div v-if="useDueDate">
             <label for="inputDueDate" class="sr-only">Due Date</label>
             <input type="datetime-local" asp-for="DueDate" id="inputDueDate" class="form-control" />
-            <input type="checkbox" asp-for="UseDueDate" v-model="useDueDate" hidden/>
+            <input type="checkbox" asp-for="UseDueDate" v-model="useDueDate" hidden />
         </div>
         <button v-if="!useDueDate" v-on:click="addDueDate" class="btn btn-lg">Add Due Date</button>
+
+        <hr />
+
+        <!-- Parent Todos -->
+        <div class="form-group form-inline">
+            <select v-model="selectedTodo" class="col form-control">
+                <option v-for="todo in todos" :value="todo.Id">{{todo.Title}}</option>
+            </select>
+            <button v-if="selectedTodo" v-on:click="addTodoAsChild" class="btn btn-lg col">Add As Child</button>
+        </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
     </form>
@@ -31,18 +42,4 @@
     }
 </div>
 
-<script>
-    var vueApp = new Vue({
-    el: '#app',
-    data: {
-        useDueDate: false
-    },
-    methods: {
-        addDueDate: function (e) {
-            this.useDueDate = true;
-            console.log(this.dueDate);
-        }
-    }
-})
-</script>
-
+<script src="~/js/todos/create.js" asp-append-version="true"></script>

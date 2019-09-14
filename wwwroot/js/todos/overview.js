@@ -1,12 +1,12 @@
 ﻿var vueApp = new Vue({
     el: '#app',
     data: {
-        tasks: []
+        todos: []
     },
     methods: {
-        loadTasks : function(e) {
-            axios.get("/api/tasks")
-            .then(response => this.tasks = response.data)
+        loadTodos : function(e) {
+            axios.get("/api/todos")
+            .then(response => this.todos = response.data)
             .catch(error => alert(error));
         },
         prettifyDate: function (dStr) {
@@ -19,13 +19,13 @@
         }
     },
     computed: {
-        sortedTasks: function () {
-            return this.tasks.sort((a,b) => compare(a.Title, b.Title));
+        sortedTodos: function () {
+            return this.todos.sort((a,b) => compare(a.Title, b.Title));
         }
     }
 })
 
-vueApp.loadTasks();
+vueApp.loadTodos();
 
 function compare(a, b) {
     return a < b ? -1 : a > b;

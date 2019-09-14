@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Motivator.DB.Models;
 using System.Security.Claims;
 using Tasks = System.Threading.Tasks;

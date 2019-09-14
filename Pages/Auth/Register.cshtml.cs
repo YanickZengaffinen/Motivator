@@ -45,7 +45,7 @@ namespace Motivator.Pages.Auth
             var user = await authService.Add(Name, Email, Password);
             await authService.Login(HttpContext, user);
 
-            return RedirectToPage("/Tasks/Overview");
+            return RedirectToPage("/Todos/Overview");
         }
 
         private bool IsValid()

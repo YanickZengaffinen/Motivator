@@ -6,9 +6,10 @@ using Motivator.DB.Models;
 using Motivator.DB.Repositories;
 using Motivator.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Motivator.Pages.Tasks
+namespace Motivator.Pages.Todos
 {
     [Authorize]
     [ValidateAntiForgeryToken]
@@ -16,14 +17,14 @@ namespace Motivator.Pages.Tasks
     {
         public int OwnerId { get; set; }
 
-        public int? SubTaskId { get; set; }
+        public IList<int> SubTodoIds { get; set; }
 
         [BindProperty]
         [DataType(DataType.DateTime)]
         public DateTime DueDate { get; set; } = DateTime.Now;
 
         [BindProperty]
-        [Required(ErrorMessage = "Task must have a title")]
+        [Required(ErrorMessage = "Todo must have a title")]
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -32,13 +33,13 @@ namespace Motivator.Pages.Tasks
         public bool UseDueDate { get; set; }
 
         private readonly IAuthService authService;
-        private readonly ITaskRepository taskRepo;
+        private readonly ITodoRepository todoRepo;
         private readonly IMapper mapper;
 
-        public CreateModel(IAuthService authService, ITaskRepository taskRepo, IMapper mapper)
+        public CreateModel(IAuthService authService, ITodoRepository todoRepo, IMapper mapper)
         {
             this.authService = authService;
-            this.taskRepo = taskRepo;
+            this.todoRepo = todoRepo;
             this.mapper = mapper;
         }
 
@@ -52,15 +53,15 @@ namespace Motivator.Pages.Tasks
 
             if(authService.TryGetUserId(User, out int userId))
             {
-                var task = mapper.Map<Task>(this);
-                task.OwnerId = userId;
+                var todo = mapper.Map<Todo>(this);
+                todo.OwnerId = userId;
 
                 if (!UseDueDate)
                 {
-                    task.DueDate = null;
+                    todo.DueDate = null;
                 }
 
-                taskRepo.AddTask(task);
+                todoRepo.Add(todo);
 
                 return RedirectToPage("Overview");
             }

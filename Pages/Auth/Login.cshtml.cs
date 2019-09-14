@@ -40,7 +40,7 @@ namespace Motivator.Pages.Auth
 
             await authService.Login(HttpContext, user);
 
-            return RedirectToPage("/Tasks/Overview");
+            return RedirectToPage("/Todos/Overview");
         }
     }
 }

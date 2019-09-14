@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Tasks = System.Threading.Tasks;
+using System.Threading.Tasks;
 
 namespace Motivator.Services
 {
@@ -21,7 +21,7 @@ namespace Motivator.Services
             this.userRepo = userRepo;
         }
 
-        public Tasks.Task<User> Add(string userName, string email, string password)
+        public Task<User> Add(string userName, string email, string password)
         {
             if (userRepo.TryGetUserByName(userName, out User _))
             {
@@ -36,20 +36,20 @@ namespace Motivator.Services
             var user = new User() { Username = userName, Email = email, Password = HashString(password) };
             userRepo.Add(user);
 
-            return Tasks.Task.FromResult(user);
+            return Task.FromResult(user);
         }
 
-        public Tasks.Task<User> Authenticate(string userName, string password)
+        public Task<User> Authenticate(string userName, string password)
         {
             if (userRepo.TryGetUserByEmail(userName, out User user))
             {
                 if (user.Password.Equals(HashString(password)))
                 {
-                    return Tasks.Task.FromResult(user);
+                    return Task.FromResult(user);
                 }
             }
 
-            return Tasks.Task.FromResult<User>(null);
+            return Task.FromResult<User>(null);
         }
 
         public bool TryGetUserId(ClaimsPrincipal claims, out int id)
@@ -64,7 +64,7 @@ namespace Motivator.Services
             return false;
         }
 
-        public async Tasks.Task Login(HttpContext context, User user)
+        public async Task Login(HttpContext context, User user)
         {
             var claims = new List<Claim>
             {

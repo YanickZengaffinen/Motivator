@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Motivator.DB.Models;
-using Motivator.Pages.Tasks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Motivator.Pages.Todos;
 
 namespace Motivator
 {
@@ -11,7 +8,7 @@ namespace Motivator
     {
         public AutoMapperProfile()
         {
-            CreateMap<Task, CreateModel>()
+            CreateMap<Todo, CreateModel>()
                 .ReverseMap();
         }
     }
