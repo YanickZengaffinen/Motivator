@@ -1,6 +1,7 @@
-﻿using Motivator.DB.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Motivator.DB.Models;
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Motivator.DB.Repositories.Impl
 {
@@ -13,44 +14,26 @@ namespace Motivator.DB.Repositories.Impl
             this.Context = context;
         }
 
-        public void Add(User user)
+        public async Task Add(User user)
         {
-            Context.Users.Add(user);
-            Context.SaveChanges();
+            await Context.Users.AddAsync(user);
+            await Context.SaveChangesAsync();
         }
 
-        public void Update(User user)
+        public async Task Update(User user)
         {
             Context.Users.Update(user);
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
         }
 
-        public bool TryGetUserByName(string userName, out User user)
+        public async Task<User> GetUserByName(string userName)
         {
-            var dbUser = Context.Users.FirstOrDefault(u => u.Username.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
-
-            if(dbUser != null)
-            {
-                user = dbUser;
-                return true;
-            }
-
-            user = null;
-            return false;
+            return await Context.Users.FirstOrDefaultAsync(u => u.Username.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public bool TryGetUserByEmail(string eMail, out User user)
+        public async Task<User> GetUserByEmail(string eMail)
         {
-            var dbUser = Context.Users.FirstOrDefault(u => u.Email.Equals(eMail, StringComparison.InvariantCultureIgnoreCase));
-
-            if (dbUser != null)
-            {
-                user = dbUser;
-                return true;
-            }
-
-            user = null;
-            return false;
+            return await Context.Users.FirstOrDefaultAsync(u => u.Email.Equals(eMail, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

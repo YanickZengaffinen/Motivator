@@ -27,11 +27,11 @@ namespace Motivator.Controllers
         [IgnoreAllExceptFilterFactory(
             Ignored = typeof(Todo), 
             Except = new string[] { nameof(Todo.Id), nameof(Todo.Title), nameof(Todo.DueDate) })]
-        public IEnumerable<Todo> Get()
+        public async Task<IEnumerable<Todo>> GetAsync()
         {
             if(authService.TryGetUserId(User, out int userId))
             {
-                return todoRepo.GetAll(userId);
+                return await todoRepo.GetAll(userId);
             }
 
             return new List<Todo>();

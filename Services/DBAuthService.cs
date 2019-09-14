@@ -21,35 +21,36 @@ namespace Motivator.Services
             this.userRepo = userRepo;
         }
 
-        public Task<User> Add(string userName, string email, string password)
+        public async Task<User> Add(string userName, string email, string password)
         {
-            if (userRepo.TryGetUserByName(userName, out User _))
+            if(await userRepo.GetUserByName(userName) != null)
             {
                 throw new InvalidOperationException("Username already in use");
             }
 
-            if (userRepo.TryGetUserByEmail(email, out User _))
+            if (await userRepo.GetUserByEmail(email) != null)
             {
                 throw new InvalidOperationException("EMail already in use");
             }
 
             var user = new User() { Username = userName, Email = email, Password = HashString(password) };
-            userRepo.Add(user);
+            await userRepo.Add(user);
 
-            return Task.FromResult(user);
+            return user;
         }
 
-        public Task<User> Authenticate(string userName, string password)
+        public async Task<User> Authenticate(string email, string password)
         {
-            if (userRepo.TryGetUserByEmail(userName, out User user))
+            var user = await userRepo.GetUserByEmail(email);
+            if (user != null)
             {
                 if (user.Password.Equals(HashString(password)))
                 {
-                    return Task.FromResult(user);
+                    return user;
                 }
             }
 
-            return Task.FromResult<User>(null);
+            return null;
         }
 
         public bool TryGetUserId(ClaimsPrincipal claims, out int id)

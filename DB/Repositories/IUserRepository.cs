@@ -1,15 +1,16 @@
 ﻿using Motivator.DB.Models;
+using System.Threading.Tasks;
 
 namespace Motivator.DB.Repositories
 {
     public interface IUserRepository
     {
-        void Add(User user);
+        Task Add(User user);
 
-        void Update(User user);
+        Task Update(User user);
 
-        bool TryGetUserByName(string name, out User user);
+        Task<User> GetUserByName(string name);
 
-        bool TryGetUserByEmail(string email, out User user);
+        Task<User> GetUserByEmail(string email);
     }
 }

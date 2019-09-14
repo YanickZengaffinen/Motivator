@@ -6,7 +6,7 @@ namespace Motivator.DB.Repositories
 {
     public interface ITodoRepository
     {
-        IEnumerable<Todo> GetAll(int ownerId);
+        Task<IEnumerable<Todo>> GetAll(int ownerId);
 
         Task Add(Todo model);
 

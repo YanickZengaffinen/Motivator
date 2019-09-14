@@ -8,6 +8,7 @@ using Motivator.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace Motivator.Pages.Todos
 {
@@ -44,7 +45,7 @@ namespace Motivator.Pages.Todos
         }
 
         [HttpPost]
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if(!ModelState.IsValid)
             {
@@ -61,7 +62,7 @@ namespace Motivator.Pages.Todos
                     todo.DueDate = null;
                 }
 
-                todoRepo.Add(todo);
+                await todoRepo.Add(todo);
 
                 return RedirectToPage("Overview");
             }

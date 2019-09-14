@@ -14,9 +14,12 @@ namespace Motivator.DB.Repositories.Impl
             this.Context = context;
         }
 
-        public IEnumerable<Todo> GetAll(int ownerId)
+        public async Task<IEnumerable<Todo>> GetAll(int ownerId)
         {
-            return Context.Todos.Where(x => x.OwnerId == ownerId).ToList();
+            //TODO: return IAsyncEnumerable
+            return await Context.Todos.Where(x => x.OwnerId == ownerId)
+                .ToAsyncEnumerable()
+                .ToList();
         }
 
         public async Task Add(Todo model)
