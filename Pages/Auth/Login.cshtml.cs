@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Motivator.Services;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Motivator.Pages.Auth
@@ -24,6 +26,26 @@ namespace Motivator.Pages.Auth
         }
 
         [ValidateAntiForgeryToken]
+        [HttpGet]
+        public IActionResult OnGet()
+        {
+            if (User != null)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    return RedirectToPage("/Todos/Overview");
+                }
+                else
+                {
+                    Email = User.Claims.First(x => x.Type == ClaimTypes.Email)?.Value;
+                }
+            }
+
+            return Page();
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> OnPost()
         {
             if(!ModelState.IsValid)
