@@ -33,6 +33,12 @@ namespace Motivator.DB.Repositories.Impl
             return await Context.Todos.FindAsync(taskId);
         }
 
+        public async Task Update(Todo model)
+        {
+            Context.Todos.Update(model);
+            await Context.SaveChangesAsync();
+        }
+
         public async Task AddChild(int parentId, int childId)
         {
             var parent = await Get(parentId);

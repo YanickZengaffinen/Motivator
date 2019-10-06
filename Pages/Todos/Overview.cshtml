@@ -9,9 +9,17 @@
 <div id='app'>
     <label>Your Todos</label>
     <table class="table table-hover table-striped">
+        <tr class="row">
+            <th class="row">Title</th>
+            <th class="row">Due Date</th>
+            <th class="row">Completed</th>
+        </tr>
         <tr v-for="(item, index) in sortedTodos" class="row">
             <td class="col">{{item.Title}}</td>
             <td class="col">{{prettifyDate(item.DueDate)}}</td>
+            <td class="col">
+                <input type="checkbox" class="checkbox" v-model="item.IsCompleted" v-on:change="onCompleteChanged(item.Id, item.IsCompleted)"/>
+            </td>
         </tr>
     </table>
 

@@ -12,6 +12,8 @@ namespace Motivator.DB.Repositories
 
         Task<Todo> Get(int taskId);
 
+        Task Update(Todo model);
+
         Task AddChild(int parentId, int childId);
     }
 }

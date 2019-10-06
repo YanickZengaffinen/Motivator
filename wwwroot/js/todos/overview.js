@@ -9,6 +9,11 @@
             .then(response => this.todos = response.data)
             .catch(error => alert(error));
         },
+        onCompleteChanged: function (id, completed) {
+            axios.get("/api/todos/complete?taskId=" + id + "&isComplete=" + completed)
+                .then(response => console.log(response.data))
+                .catch(error => alert(error));
+        },
         prettifyDate: function (dStr) {
             if (dStr) {
                 var d = new Date(dStr);
