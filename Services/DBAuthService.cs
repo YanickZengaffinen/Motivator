@@ -80,6 +80,21 @@ namespace Motivator.Services
             await context.SignInAsync(principal);
         }
 
+        public async Task Logout(HttpContext context)
+        {
+            await context.SignOutAsync();
+        }
+
+        public async Task<bool> IsUniqueEmail(string email)
+        {
+            if(await userRepo.GetUserByEmail(email) != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private string HashString(string str)
         {
             var message = Encoding.Unicode.GetBytes(str);

@@ -92,7 +92,7 @@ namespace Motivator_Razor
 
             context.Database.Migrate();
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

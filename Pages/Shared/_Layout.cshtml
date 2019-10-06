@@ -23,6 +23,19 @@
 <body>
     <partial name="_CookieConsentPartial" />
 
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <a href="/api/auth/logout">
+                        <button type="button" class="btn btn-primary btn-small btn-nav">Logout</button>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />

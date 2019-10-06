@@ -37,7 +37,7 @@ namespace Motivator.Pages.Auth
                 }
                 else
                 {
-                    Email = User.Claims.First(x => x.Type == ClaimTypes.Email)?.Value;
+                    Email = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
                 }
             }
 
