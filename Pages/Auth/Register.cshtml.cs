@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Motivator.Services;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Motivator.Pages.Auth
@@ -37,7 +34,7 @@ namespace Motivator.Pages.Auth
         [HttpPost]
         public async Task<IActionResult> OnPost()
         {
-            if(!IsValid())
+            if(! await IsValid())
             {
                 return Page();
             }
@@ -48,7 +45,7 @@ namespace Motivator.Pages.Auth
             return RedirectToPage("/Todos/Overview");
         }
 
-        private bool IsValid()
+        private async Task<bool> IsValid()
         {
             if (!ModelState.IsValid)
                 return false;
@@ -56,6 +53,12 @@ namespace Motivator.Pages.Auth
             if (RepeatPassword?.Equals(Password, StringComparison.InvariantCulture) != true)
             {
                 ModelState.AddModelError("noMatch", "Passwords do not match");
+                return false;
+            }
+
+            if(!await authService.IsUniqueEmail(Email))
+            {
+                ModelState.AddModelError("emailAlreadyUsed", "EMail already in use");
                 return false;
             }
                 
