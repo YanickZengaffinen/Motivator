@@ -36,18 +36,5 @@ namespace Motivator.Controllers
 
             return new List<Todo>();
         }
-
-        [HttpGet("addChild")]
-        public async Task AddChild(int parentId, int childId)
-        {
-            if(authService.TryGetUserId(User, out int userId))
-            {
-                var parent = await todoRepo.Get(parentId);
-                if(parent.OwnerId == userId)
-                {
-                    await todoRepo.AddChild(parentId, childId);
-                }
-            }
-        }
     }
 }

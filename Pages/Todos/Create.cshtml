@@ -23,12 +23,12 @@
 
         <hr />
 
-        <!-- Parent Todos -->
-        <div class="form-group form-inline">
-            <select v-model="selectedTodo" class="col form-control">
+        <!-- Parent Todo -->
+        <div class="form-group form-inline" v-if="todos && todos.length > 0">
+            <label>Select Parent</label>
+            <select asp-for="ParentTodoId" v-model="selectedTodo" class="col form-control">
                 <option v-for="todo in todos" :value="todo.Id">{{todo.Title}}</option>
             </select>
-            <button v-if="selectedTodo" v-on:click="addTodoAsChild" class="btn btn-lg col">Add As Child</button>
         </div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>

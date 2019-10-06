@@ -33,6 +33,9 @@ namespace Motivator.Pages.Todos
         [BindProperty]
         public bool UseDueDate { get; set; }
 
+        [BindProperty]
+        public int? ParentTodoId { get; set; }
+
         private readonly IAuthService authService;
         private readonly ITodoRepository todoRepo;
         private readonly IMapper mapper;
@@ -63,6 +66,15 @@ namespace Motivator.Pages.Todos
                 }
 
                 await todoRepo.Add(todo);
+
+                if(ParentTodoId.HasValue)
+                {
+                    var parent = await todoRepo.Get(ParentTodoId.Value);
+                    if (parent.OwnerId == userId)
+                    {
+                        await todoRepo.AddChild(ParentTodoId.Value, todo.Id);
+                    }
+                }
 
                 return RedirectToPage("Overview");
             }

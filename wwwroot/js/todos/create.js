@@ -11,9 +11,6 @@
             .then(response => this.todos = response.data)
             .catch(error => alert(error));
         },
-        addTodoAsChild: function () {
-            console.log(this.selectedTodo);
-        },
         addDueDate: function (e) {
             this.useDueDate = true;
             console.log(this.dueDate);
