@@ -68,15 +68,6 @@ namespace Motivator.Pages.Todos
 
                 await todoRepo.Add(todo);
 
-                if(ParentTodoId.HasValue)
-                {
-                    var parent = await todoRepo.Get(ParentTodoId.Value);
-                    if (parent.OwnerId == userId)
-                    {
-                        await todoRepo.AddChild(ParentTodoId.Value, todo.Id);
-                    }
-                }
-
                 return RedirectToPage("Overview");
             }
 

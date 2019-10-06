@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +12,8 @@ namespace Motivator.DB.Models
         [ForeignKey(nameof(User.Id))]
         public int OwnerId { get; set; }
 
-        public List<int> SubTodoIds { get; set; }
+        [ForeignKey(nameof(Todo.Id))]
+        public int? ParentTodoId { get; set; }
 
         public DateTime? DueDate { get; set; }
 
