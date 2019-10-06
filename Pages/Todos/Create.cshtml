@@ -13,6 +13,16 @@
 
         <hr />
 
+        <!-- Parent Todo -->
+        <div class="form-group form-inline" v-if="todos && todos.length > 0">
+            <label>Select Parent</label>
+            <select asp-for="ParentTodoId" v-model="selectedTodo" class="col form-control">
+                <option v-for="todo in todos" :value="todo.Id">{{todo.Title}}</option>
+            </select>
+        </div>
+
+        <hr />
+
         <!-- Due Date -->
         <div v-if="useDueDate">
             <label for="inputDueDate" class="sr-only">Due Date</label>
@@ -23,13 +33,10 @@
 
         <hr />
 
-        <!-- Parent Todo -->
-        <div class="form-group form-inline" v-if="todos && todos.length > 0">
-            <label>Select Parent</label>
-            <select asp-for="ParentTodoId" v-model="selectedTodo" class="col form-control">
-                <option v-for="todo in todos" :value="todo.Id">{{todo.Title}}</option>
-            </select>
-        </div>
+        <!-- Description -->
+        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Description"></textarea>
+
+        <hr />
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
     </form>

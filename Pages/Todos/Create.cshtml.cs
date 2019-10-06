@@ -28,6 +28,7 @@ namespace Motivator.Pages.Todos
         [Required(ErrorMessage = "Todo must have a title")]
         public string Title { get; set; }
 
+        [BindProperty]
         public string Description { get; set; }
 
         [BindProperty]
