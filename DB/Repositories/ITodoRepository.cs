@@ -8,6 +8,8 @@ namespace Motivator.DB.Repositories
     {
         Task<IEnumerable<Todo>> GetAll(int ownerId);
 
+        Task<IEnumerable<Todo>> GetHierarchy(int ownerId, int? parentId);
+
         Task Add(Todo model);
 
         Task<Todo> Get(int taskId);

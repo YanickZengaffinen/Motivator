@@ -22,6 +22,14 @@ namespace Motivator.DB.Repositories.Impl
                 .ToList();
         }
 
+        public async Task<IEnumerable<Todo>> GetHierarchy(int ownerId, int? parentId = null)
+        {
+            return await Context.Todos.Where(x => x.OwnerId == ownerId)
+                .Where(x => x.ParentTodoId == parentId)
+                .ToAsyncEnumerable()
+                .ToList();
+        }
+
         public async Task Add(Todo model)
         {
             await Context.Todos.AddAsync(model);

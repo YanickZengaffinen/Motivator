@@ -38,6 +38,20 @@ namespace Motivator.Controllers
             return new List<Todo>();
         }
 
+        [HttpGet("hierarchy")]
+        [IgnoreAllExceptFilterFactory(
+            Ignored = typeof(Todo),
+            Except = new string[] { nameof(Todo.Id), nameof(Todo.Title), nameof(Todo.DueDate), nameof(Todo.IsCompleted) })]
+        public async Task<IEnumerable<Todo>> GetHierarchy(int? parentId = null)
+        {
+            if(authService.TryGetUserId(User, out int userId))
+            {
+                return await todoRepo.GetHierarchy(userId, parentId);
+            }
+
+            return new List<Todo>();
+        }
+
         [HttpGet("complete")]
         public async Task Complete(int taskId, bool isComplete)
         {
