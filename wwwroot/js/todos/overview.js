@@ -1,15 +1,49 @@
-﻿var vueApp = new Vue({
-    el: '#app',
-    data: {
-        todos: []
+﻿var testData = {
+    Title: "Test",
+    Id: 0,
+    children: [
+        {
+            Id: 1,
+            Title: "Sub1",
+            children: []
+        },
+        {
+            Id: 2,
+            Title: "Sub2",
+            children: []
+        }
+    ]
+}
+
+//Tree View
+Vue.component('tree-item', {
+    template: '#item-template',
+    props: {
+        item: Object,
+        order: Number
+    },
+    data: function () {
+        return {
+            isOpen: false
+        };
     },
     methods: {
-        loadTodos : function(e) {
-            axios.get("/api/todos")
-            .then(response => this.todos = response.data)
-            .catch(error => alert(error));
+        toggle: function () {
+            this.isOpen = !this.isOpen;
+            if (this.isOpen && !this.item.children) {
+                this.loadTodos();
+            }
         },
-        onCompleteChanged: function (id, completed) {
+        loadTodos: function () {
+            axios.get("/api/todos/hierarchy?parentId=" + this.item.Id)
+                .then(response => {
+                    this.item.children = response.data;
+                    this.$forceUpdate();
+                })
+                .catch(error => alert(error));
+        },
+        onCompleteChange: function (id, completed) {
+            this.item.IsCompleted = completed;
             axios.get("/api/todos/complete?taskId=" + id + "&isComplete=" + completed)
                 .then(response => console.log(response.data))
                 .catch(error => alert(error));
@@ -22,15 +56,29 @@
             }
             return "-";
         }
+    }
+})
+
+var vueApp = new Vue({
+    el: '#app',
+    data: {
+        rootTodos: []
+    },
+    methods: {
+        loadTodos: function () {
+            axios.get("/api/todos/hierarchy")
+                .then(response => this.rootTodos = response.data)
+                .catch(error => alert(error));
+        }
     },
     computed: {
         sortedTodos: function () {
-            return this.todos.sort((a,b) => compare(a.Title, b.Title));
+            return this.rootTodos.sort((a,b) => compare(a.Title, b.Title));
         }
     }
 })
 
-vueApp.loadTodos();
+vueApp.loadTodos(); //initially load the root level todos
 
 function compare(a, b) {
     return a < b ? -1 : a > b;

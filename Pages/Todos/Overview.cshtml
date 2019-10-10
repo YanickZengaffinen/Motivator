@@ -4,30 +4,53 @@
     ViewData["Title"] = "Overview";
 }
 
-<h2>Overview</h2>
+<label class="h1">Overview</label>
+
+<script type="text/x-template" id="item-template">
+    <li class="list-group-item border-1"  v-bind:class="{'bg-light': order%2 == 0}">
+        <div>
+            <div class="row">
+                <div v-on:click="toggle" class="col row">
+                    <div class="col-1 float-right">
+                        <i class="fa fa-chevron-down h4" v-if="isOpen" />
+                        <i class="fa fa-chevron-right h4" v-if="!isOpen" />
+                    </div>
+
+                    <div class="col">
+                        <p class="h4">{{item.Title}}</p>
+                        <label class="h4">{{prettifyDate(item.DueDate)}}</label>
+                    </div>
+                </div>
+
+                <div class="col-1" v-on:click="onCompleteChange(item.Id, !item.IsCompleted)">
+                    <i class="fa fa-check-square h4" v-if="item.IsCompleted" />
+                    <i class="fa fa-square h4" v-if="!item.IsCompleted" />
+                </div>
+            </div>
+        </div>
+        <ul v-show="isOpen" class="list-group list-unstyled">
+            <tree-item v-for="(child, index) in item.children"
+                       :key="index"
+                       :order="index+order+1"
+                       :item="child" />
+        </ul>
+    </li>
+</script>
+
 
 <div id='app'>
-    <label>Your Todos</label>
-    <table class="table table-hover table-striped">
-        <tr class="row">
-            <th class="row">Title</th>
-            <th class="row">Due Date</th>
-            <th class="row">Completed</th>
-        </tr>
-        <tr v-for="(item, index) in sortedTodos" class="row">
-            <td class="col">{{item.Title}}</td>
-            <td class="col">{{prettifyDate(item.DueDate)}}</td>
-            <td class="col">
-                <input type="checkbox" class="checkbox" v-model="item.IsCompleted" v-on:change="onCompleteChanged(item.Id, item.IsCompleted)"/>
-            </td>
-        </tr>
-    </table>
+    <label class="h3 font-weight-bold">Your Todos</label>
+    <ul>
+        <tree-item v-for="(todo, index) in sortedTodos"
+                   class="item"
+                   :key="index"
+                   :order="index"
+                   :item="todo" />
+    </ul>
 
     <a asp-page="create" class="btn btn-lg btn-primary">New</a>
     <button v-on:click="loadTodos" class="btn btn-lg btn-primary">Reload</button>
 </div>
 
+
 <script src="~/js/todos/overview.js" asp-append-version="true"></script>
-<!--<script>
-    vueApp.todos = Html.Raw(Model.GetTodosLight())
-</script>-->
